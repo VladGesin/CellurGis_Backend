@@ -8,4 +8,4 @@ CREATE TABLE dots(
   latitude float ( 6 ),
   longitude float ( 6 ),
   rsrp float ( 4 )
-);
+); 
