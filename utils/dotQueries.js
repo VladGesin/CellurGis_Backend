@@ -25,7 +25,7 @@ const getDot = async (site_name) => {
 const createDot = async (longitude, latitude, rsrp, site_name) => {
 	try {
 		const dot = await db.query(
-			'INSERT INTO dots(longitude, latitude, rsrp, site_name) VALUES($1, $2, $3 ,$4) RETURNING *',
+			"INSERT INTO dots(longitude, latitude, rsrp, site_name ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq')) RETURNING *",
 			[ longitude, latitude, rsrp, site_name ]
 		);
 		return dot.rows[0];
@@ -63,7 +63,7 @@ const deleteRow = async (id) => {
 
 const deleteAllRows = async () => {
 	try {
-		const dot = await db.query('DELETE FROM dots ');
+		const dot = await db.query('DELETE FROM dots; ALTER SEQUENCE dot_id_seq RESTART WITH 1;');
 		return 'Todos was Deleted';
 	} catch (error) {
 		console.log(err.massage);
