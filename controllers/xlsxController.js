@@ -1,47 +1,26 @@
-const readXlsxFile = require('read-excel-file/node');
 const fs = require('fs');
 const path = require('path');
 const dirPath = path.join(__dirname, '/xlsxfiles/');
-const XLSX = require('xlsx');
+var stream = require('stream');
+const ExcelJS = require('exceljs');
 
 exports.uploadFile = async (req, res, next) => {
 	try {
 		console.log(dirPath);
 		const filePath = dirPath + req.file.filename;
-		readXlsxFile(filePath).then((rows) => {
-			// `rows` is an array of rows
-			// each row being an array of cells.
-			console.log(rows);
 
-			// Remove Header ROW
-			rows.shift();
-
-			const dots = [];
-
-			let length = rows.length;
-
-			for (let i = 0; i < length; i++) {
-				let dot = {
-					latitude: rows[i][0],
-					longitude: rows[i][1],
-					rsrp: rows[i][3],
-					site_id: rows[i][4]
-				};
-
-				dots.push(dot);
-			}
-
-			// Customer.bulkCreate(customers)
-			// .then(() => {
-			const result = {
-				status: 'ok',
-				filename: req.file.originalname,
-				message: 'Upload Successfully!'
-			};
-
-			res.json('result');
-			// });
+		const stream = fs.createReadStream(filePath);
+		const workbook = new ExcelJS.Workbook();
+		const streamWorkBook = await workbook.xlsx.read(stream);
+		const sheet = streamWorkBook.getWorksheet(workbook[0]);
+		console.log('Test');
+		//Get all the rows data [1st and 2nd column]
+		let data = sheet.eachRow({ includeEmpty: false }, function(row, rowNumber) {
+			console.log('Row ' + rowNumber + ' = ' + JSON.stringify(row.values));
+			return JSON.stringify(row.values);
 		});
+
+		res.json('Sucsess');
 	} catch (error) {
 		const result = {
 			status: 'fail',
