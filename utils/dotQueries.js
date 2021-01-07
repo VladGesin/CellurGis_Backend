@@ -34,6 +34,19 @@ const createDot = async (longitude, latitude, rsrp, site_name) => {
 	}
 };
 
+//Create Dot from XLSX file
+
+const createDotFromXlsx = async (longitude, latitude, rsrp, site_name) => {
+	try {
+		const dot = await db.query(
+			"INSERT INTO dots(longitude, latitude, rsrp, site_name ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq'))",
+			[ longitude, latitude, rsrp, site_name ]
+		);
+	} catch (err) {
+		console.error(err.massage);
+	}
+};
+
 //Update dot by id row
 
 const updateDot = async (id, longitude, latitude, rsrp, site_name) => {
@@ -76,5 +89,6 @@ module.exports = {
 	createDot: createDot,
 	updateDot: updateDot,
 	deleteRow: deleteRow,
-	deleteAllRows: deleteAllRows
+	deleteAllRows: deleteAllRows,
+	createDotFromXlsx: createDotFromXlsx
 };
