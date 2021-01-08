@@ -12,9 +12,7 @@ exports.uploadFile = async (req, res, next) => {
 		const workbook = new ExcelJS.Workbook();
 		const streamWorkBook = await workbook.xlsx.read(stream);
 		const sheet = streamWorkBook.getWorksheet(workbook[0]);
-		//Get all the rows data [1st and 2nd column]
 		sheet.eachRow({ includeEmpty: false }, function(row, rowNumber) {
-			console.log(row.getCell(1).value, row.getCell(2).value, row.getCell(4).value, row.getCell(5).value);
 			dotController.createDotFromXlsx(
 				row.getCell(1).value,
 				row.getCell(2).value,
@@ -22,7 +20,6 @@ exports.uploadFile = async (req, res, next) => {
 				row.getCell(5).value
 			);
 		});
-
 		res.json('Sucsess');
 	} catch (error) {
 		const result = {

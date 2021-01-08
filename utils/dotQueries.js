@@ -47,6 +47,17 @@ const createDotFromXlsx = async (longitude, latitude, rsrp, site_name) => {
 	}
 };
 
+//Create Dot from csv file
+
+const createDotFromCsv = async (path) => {
+	try {
+		await db.query(`COPY dots(longitude, latitude, rsrp, site_name ) FROM '${path}' DELIMITER ',' CSV HEADER `);
+		return 'Uploud csv successfully';
+	} catch (err) {
+		console.error(err.massage);
+	}
+};
+
 //Update dot by id row
 
 const updateDot = async (id, longitude, latitude, rsrp, site_name) => {
@@ -90,5 +101,6 @@ module.exports = {
 	updateDot: updateDot,
 	deleteRow: deleteRow,
 	deleteAllRows: deleteAllRows,
-	createDotFromXlsx: createDotFromXlsx
+	createDotFromXlsx: createDotFromXlsx,
+	createDotFromCsv: createDotFromCsv
 };
