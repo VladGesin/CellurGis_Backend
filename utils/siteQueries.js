@@ -13,13 +13,25 @@ const getAllSites = async () => {
 //Get site name of Site id
 const getSite = async (site_id) => {
 	try {
-		return await db.query('SELECT * FROM sites WHERE site_id = $1', [ site_id ]);
+		const site = await db.query('SELECT * FROM sites WHERE site_id = $1', [ site_id ]);
+		return site.rows[0];
 	} catch (error) {
 		console.log(err.massage);
 	}
 };
 
-//Create Dot
+//Get excisted of Site id
+const checkDB = async (site_id) => {
+	try {
+		const site = await db.query('SELECT * FROM sites WHERE site_id = $1', [ site_id ]);
+		if (site.rows.length > 0) return true;
+		else return false;
+	} catch (error) {
+		console.log(err.massage);
+	}
+};
+
+//Create Site
 
 const createSite = async (longitude, latitude, site_name, site_id) => {
 	try {
@@ -27,7 +39,21 @@ const createSite = async (longitude, latitude, site_name, site_id) => {
 			'INSERT INTO sites(longitude, latitude, site_name, site_id ) VALUES($1, $2, $3 ,$4)',
 			[ longitude, latitude, site_name, site_id ]
 		);
-		return site.rows[0];
+		return true;
+	} catch (err) {
+		console.error(err.massage);
+	}
+};
+
+//Create fake db Sites
+
+const createFakeSite = async (longitude, latitude, site_name, site_id) => {
+	try {
+		const site = await db.query(
+			'INSERT INTO fakesites(longitude, latitude, site_name, site_id ) VALUES($1, $2, $3 ,$4)',
+			[ longitude, latitude, site_name, site_id ]
+		);
+		return true;
 	} catch (err) {
 		console.error(err.massage);
 	}
@@ -75,5 +101,7 @@ module.exports = {
 	createSite: createSite,
 	updateSite: updateSite,
 	deleteSite: deleteSite,
-	deleteAllSites: deleteAllSites
+	deleteAllSites: deleteAllSites,
+	createFakeSite: createFakeSite,
+	checkDB: checkDB
 };

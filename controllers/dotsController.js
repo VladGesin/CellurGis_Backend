@@ -13,8 +13,9 @@ const getAllDots = async (req, res, next) => {
 //Get Dots of Site Name
 const getDotsBySiteName = async (req, res, next) => {
 	try {
-		const { site_name } = req.params;
-		const siteDots = await dotQ.getDot(site_name);
+		const { site_id } = req.params;
+		const siteDots = await dotQ.getDot(site_id);
+		console.log(siteDots.rows);
 		res.json(siteDots.rows);
 	} catch (error) {
 		next(error);

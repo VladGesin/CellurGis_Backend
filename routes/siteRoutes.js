@@ -8,6 +8,8 @@ router.get('/sites', siteController.getAllSites);
 router.get('/site/:site_id', siteController.getSiteBySiteId);
 //Create Site
 router.post('/site', siteController.createSite);
+//Create Fake DB Sites
+router.post('/fakesite', siteController.createFakeSite);
 //Update site by site_id
 router.put('/site/:site_id', siteController.updateSite);
 //Delete Row by site name

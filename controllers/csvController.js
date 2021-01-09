@@ -7,7 +7,7 @@ exports.uploadFile = async (req, res, next) => {
 	try {
 		const filePath = dirPath + req.file.filename;
 		dotController.createDotFromCsv(filePath);
-		res.json('Sucsess');
+		res.json('Uploud csv successfully');
 	} catch (error) {
 		const result = {
 			status: 'fail',

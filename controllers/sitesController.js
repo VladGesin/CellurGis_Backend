@@ -13,9 +13,9 @@ const getAllSites = async (req, res, next) => {
 //Get Sites of Site_id
 const getSiteBySiteId = async (req, res, next) => {
 	try {
-		const { Site_id } = req.params;
-		const site = await siteQuery.getSite(Site_id);
-		res.json(site.rows);
+		const { site_id } = req.params;
+		const site = await siteQuery.getSite(site_id);
+		res.json(site);
 	} catch (error) {
 		next(error);
 	}
@@ -26,6 +26,17 @@ const createSite = async (req, res, next) => {
 	try {
 		const { longitude, latitude, site_name, site_id } = req.body;
 		const createSite = await siteQuery.createSite(longitude, latitude, site_name, site_id);
+		res.json(createSite);
+	} catch (error) {
+		next(error);
+	}
+};
+
+//Create Fake DB Sites
+const createFakeSite = async (req, res, next) => {
+	try {
+		const { longitude, latitude, site_name, site_id } = req.body;
+		const createSite = await siteQuery.createFakeSite(longitude, latitude, site_name, site_id);
 		res.json(createSite);
 	} catch (error) {
 		next(error);
@@ -71,5 +82,6 @@ module.exports = {
 	createSite: createSite,
 	updateSite: updateSite,
 	deleteSite: deleteSite,
-	deleteAllSites: deleteAllSites
+	deleteAllSites: deleteAllSites,
+	createFakeSite: createFakeSite
 };

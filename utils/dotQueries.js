@@ -11,9 +11,9 @@ const getAllDots = async () => {
 };
 
 //Get Dots of Site Name
-const getDot = async (site_name) => {
+const getDot = async (site_id) => {
 	try {
-		const dots = await db.query('SELECT * FROM dots WHERE site_name = $1', [ site_name ]);
+		const dots = await db.query('SELECT * FROM dots WHERE site_id = $1', [ site_id ]);
 		return dots;
 	} catch (error) {
 		console.log(err.massage);
@@ -22,11 +22,11 @@ const getDot = async (site_name) => {
 
 //Create Dot
 
-const createDot = async (longitude, latitude, rsrp, site_name) => {
+const createDot = async (longitude, latitude, rsrp, site_id) => {
 	try {
 		const dot = await db.query(
-			"INSERT INTO dots(longitude, latitude, rsrp, site_name ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq')) RETURNING *",
-			[ longitude, latitude, rsrp, site_name ]
+			"INSERT INTO dots(longitude, latitude, rsrp, site_id ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq')) RETURNING *",
+			[ longitude, latitude, rsrp, site_id ]
 		);
 		return dot.rows[0];
 	} catch (err) {
@@ -36,11 +36,11 @@ const createDot = async (longitude, latitude, rsrp, site_name) => {
 
 //Create Dot from XLSX file
 
-const createDotFromXlsx = async (longitude, latitude, rsrp, site_name) => {
+const createDotFromXlsx = async (longitude, latitude, rsrp, site_id) => {
 	try {
 		const dot = await db.query(
-			"INSERT INTO dots(longitude, latitude, rsrp, site_name ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq'))",
-			[ longitude, latitude, rsrp, site_name ]
+			"INSERT INTO dots(longitude, latitude, rsrp, site_id ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq'))",
+			[ longitude, latitude, rsrp, site_id ]
 		);
 	} catch (err) {
 		console.error(err.massage);
@@ -51,7 +51,7 @@ const createDotFromXlsx = async (longitude, latitude, rsrp, site_name) => {
 
 const createDotFromCsv = async (path) => {
 	try {
-		await db.query(`COPY dots(longitude, latitude, rsrp, site_name ) FROM '${path}' DELIMITER ',' CSV HEADER `);
+		await db.query(`COPY dots(latitude, longitude, rsrp, site_id ) FROM '${path}' DELIMITER ',' CSV HEADER `);
 		return 'Uploud csv successfully';
 	} catch (err) {
 		console.error(err.massage);
@@ -60,11 +60,11 @@ const createDotFromCsv = async (path) => {
 
 //Update dot by id row
 
-const updateDot = async (id, longitude, latitude, rsrp, site_name) => {
+const updateDot = async (id, longitude, latitude, rsrp, site_id) => {
 	try {
 		const updateDot = await db.query(
-			'UPDATE dots SET longitude= $1 ,latitude =$2, rsrp=$3 WHERE (site_name =$4 AND dot_id=$5) ',
-			[ longitude, latitude, rsrp, site_name, id ]
+			'UPDATE dots SET longitude= $1 ,latitude =$2, rsrp=$3 WHERE (site_id =$4 AND dot_id=$5) ',
+			[ longitude, latitude, rsrp, site_id, id ]
 		);
 		return updateDot.rows;
 	} catch (error) {
