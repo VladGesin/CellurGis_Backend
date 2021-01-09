@@ -5,7 +5,7 @@ const dotController = require('../controllers/dotsController');
 //Get All Dots
 router.get('/dots', dotController.getAllDots);
 //Get Dots of Site Name
-router.get('/dots/:site_name', dotController.getDotsBySiteName);
+router.get('/dots/:site_id', dotController.getDotsBySiteName);
 //Create Dot
 router.post('/dot', dotController.createDot);
 //Update dot by id row
