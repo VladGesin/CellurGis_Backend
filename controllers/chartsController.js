@@ -118,11 +118,35 @@ const getDistinctBySiteId = async (req, res, next) => {
 	}
 };
 
+//Get all the diffrent KM with site_id
+const getCountRsrpGreater = async (req, res, next) => {
+	try {
+		const { site_id, dist, rsrp } = req.body;
+		const countPoints = await chartQ.getRsrpInDistGreater(site_id, dist, rsrp);
+		res.json(countPoints);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+//Get all the diffrent KM with site_id
+const getCountRsrp = async (req, res, next) => {
+	try {
+		const { site_id, dist } = req.body;
+		const countPoints = await chartQ.getRsrpInDist(site_id, dist);
+		res.json(countPoints);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 module.exports = {
 	setChartTable: setChartTable,
 	deleteCharts: deleteCharts,
 	avgChart: avgChart,
 	maxChart: maxChart,
 	minChart: minChart,
-	getDistinctBySiteId: getDistinctBySiteId
+	getDistinctBySiteId: getDistinctBySiteId,
+	getCountRsrpGreater: getCountRsrpGreater,
+	getCountRsrp: getCountRsrp
 };

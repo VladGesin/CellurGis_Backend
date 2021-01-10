@@ -77,8 +77,35 @@ const getMAX = async (site_id, dist) => {
 //Get all the diffrent KM with site_id
 const getAllDistinctDist = async (site_id) => {
 	try {
-		const allDistinct = await db.query('SELECT DISTINCT dist FROM charts where site_id=$1', [ site_id ]);
-		return allDistinct.rows;
+		const allDistinctDist = await db.query('SELECT DISTINCT dist FROM charts where site_id=$1', [ site_id ]);
+		return allDistinctDist.rows;
+	} catch (error) {
+		console.log(error.massage);
+	}
+};
+
+//Count rsrp points stronger then (rsrp) with site id and distance
+const getRsrpInDistGreater = async (site_id, dist, rsrp) => {
+	try {
+		const countRSRP = await db.query('SELECT count(*) FROM charts WHERE site_id = $1 AND rsrp > $2 AND dist = $3', [
+			site_id,
+			rsrp,
+			dist
+		]);
+		return countRSRP.rows;
+	} catch (error) {
+		console.log(error.massage);
+	}
+};
+
+//Count rsrp points stronger then (rsrp) with site id and distance
+const getRsrpInDist = async (site_id, dist) => {
+	try {
+		const countRSRP = await db.query('SELECT count(*) FROM charts WHERE site_id = $1 AND dist = $2', [
+			site_id,
+			dist
+		]);
+		return countRSRP.rows;
 	} catch (error) {
 		console.log(error.massage);
 	}
@@ -92,5 +119,7 @@ module.exports = {
 	getAVG: getAVG,
 	getMIN: getMIN,
 	getMAX: getMAX,
-	getAllDistinctDist: getAllDistinctDist
+	getAllDistinctDist: getAllDistinctDist,
+	getRsrpInDistGreater: getRsrpInDistGreater,
+	getRsrpInDist: getRsrpInDist
 };
