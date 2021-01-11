@@ -6,7 +6,8 @@ const chartQeury = require('../utils/chartQueries');
 const getAllSites = async (req, res, next) => {
 	try {
 		const allSites = await siteQuery.getAllSites();
-		res.json(allSites);
+		if (allSites) res.json(allSites);
+		else res.json([]);
 	} catch (error) {
 		next(error);
 	}
@@ -78,6 +79,7 @@ const deleteAllSites = async (req, res, next) => {
 	}
 };
 
+//Check site excited
 const checkDB = async (req, res, next) => {
 	try {
 		let check = await siteQuery.checkDB();
@@ -95,7 +97,6 @@ const UpdateDataBaseFromMongoos = async (req, res, next) => {
 		//Update Local pg db
 		allDistinct.forEach(async (row) => {
 			const { longitude, latitude, site_name, site_id } = await chartQeury.getAllSiteIdData(row.site_id);
-			console.log(longitude, latitude, site_name, site_id);
 			if (
 				!await siteQuery.checkDB(Object.entries(row)[0][1]) //check if in POSTGRES DB
 			) {

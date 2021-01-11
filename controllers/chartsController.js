@@ -52,7 +52,7 @@ const setChartTable = async (req, res, next) => {
 			row.dist = parseInt(calcDist.toFixed(0));
 		});
 		await chartQ.setJsonToColoms(dotsDB);
-		res.json('Charts Created');
+		res.json({ status: true, msg: 'Charts Created' });
 	} catch (error) {
 		next(error);
 	}
@@ -104,7 +104,7 @@ const maxChart = async (req, res, next) => {
 //Get all the diffrent KM with site_id
 const getDistinctBySiteId = async (req, res, next) => {
 	try {
-		const { site_id } = req.body;
+		const { site_id } = req.params;
 		const distinctKM = await chartQ.getAllDistinctDist(site_id);
 		res.json(distinctKM);
 	} catch (error) {
@@ -126,7 +126,7 @@ const getCountRsrpGreater = async (req, res, next) => {
 //Get all the diffrent KM with site_id
 const getCountRsrp = async (req, res, next) => {
 	try {
-		const { site_id, dist } = req.body;
+		const { site_id, dist } = req.params;
 		const countPoints = await chartQ.getRsrpInDist(site_id, dist);
 		res.json(countPoints);
 	} catch (error) {

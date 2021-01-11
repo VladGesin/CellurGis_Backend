@@ -64,10 +64,12 @@ const getMAX = async (site_id, dist) => {
 	}
 };
 
-//Get all the diffrent KM with site_id
+//Get all the diffrent KM with site_id order by dist from min
 const getAllDistinctDist = async (site_id) => {
 	try {
-		const allDistinctDist = await db.query('SELECT DISTINCT dist FROM charts where site_id=$1', [ site_id ]);
+		const allDistinctDist = await db.query('SELECT DISTINCT dist FROM charts where site_id=$1 order by dist', [
+			site_id
+		]);
 		return allDistinctDist.rows;
 	} catch (error) {
 		console.log(error.massage);
