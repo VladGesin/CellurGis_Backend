@@ -42,6 +42,7 @@ const createDotFromXlsx = async (longitude, latitude, rsrp, site_id) => {
 			"INSERT INTO dots(longitude, latitude, rsrp, site_id ,dot_id) VALUES($1, $2, $3 ,$4,nextval('dot_id_seq'))",
 			[ longitude, latitude, rsrp, site_id ]
 		);
+		return true;
 	} catch (err) {
 		console.error(err.massage);
 	}
@@ -52,9 +53,8 @@ const createDotFromXlsx = async (longitude, latitude, rsrp, site_id) => {
 const createDotFromCsv = async (path) => {
 	try {
 		await db.query(`COPY dots(latitude, longitude, rsrp, site_id ) FROM '${path}' DELIMITER ',' CSV HEADER `);
-		return 'Uploud csv successfully';
 	} catch (err) {
-		console.error(err.massage);
+		throw error;
 	}
 };
 
@@ -88,9 +88,22 @@ const deleteRow = async (id) => {
 const deleteAllRows = async () => {
 	try {
 		const dot = await db.query('DELETE FROM dots; ALTER SEQUENCE dot_id_seq RESTART WITH 1;');
-		return 'Todos was Deleted';
+		console.log('All dots was Deleted');
+		return true;
 	} catch (error) {
 		console.log(err.massage);
+	}
+};
+
+//get all the diffrent sites
+const getAllDistinct = async () => {
+	try {
+		const allDistinct = await db.query('SELECT DISTINCT site_id FROM dots;');
+		console.log(allDistinct.rows);
+
+		return allDistinct.rows;
+	} catch (error) {
+		console.log(error.massage);
 	}
 };
 
@@ -102,5 +115,6 @@ module.exports = {
 	deleteRow: deleteRow,
 	deleteAllRows: deleteAllRows,
 	createDotFromXlsx: createDotFromXlsx,
-	createDotFromCsv: createDotFromCsv
+	createDotFromCsv: createDotFromCsv,
+	getAllDistinct: getAllDistinct
 };

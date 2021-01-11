@@ -63,12 +63,13 @@ const createFakeSite = async (longitude, latitude, site_name, site_id) => {
 
 const updateSite = async (longitude, latitude, site_name, site_id) => {
 	try {
-		await db.query('UPDATE dots SET longitude= $1 ,latitude =$2, site_name=$3 WHERE (site_id =$4) ', [
+		await db.query('UPDATE sites SET longitude= $1 ,latitude =$2, site_name=$3 WHERE (site_id =$4) ', [
 			longitude,
 			latitude,
 			site_name,
 			site_id
 		]);
+		return true;
 	} catch (error) {
 		console.log(err.massage);
 	}

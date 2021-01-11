@@ -1,19 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const dirPath = path.join(__dirname, '/xlsxfiles/');
-const dotController = require('../utils/dotQueries');
+const dotQ = require('../utils/dotQueries');
+const chartsQ = require('../utils/chartQueries');
 
-exports.uploadFile = async (req, res, next) => {
+const uploadFile = async (req, res, next) => {
 	try {
 		const filePath = dirPath + req.file.filename;
-		dotController.createDotFromCsv(filePath);
-		res.json('Uploud csv successfully');
+		await dotQ.deleteAllRows();
+		await chartsQ.deleteAllChart();
+		await dotQ.createDotFromCsv(filePath);
+		next();
 	} catch (error) {
-		const result = {
-			status: 'fail',
-			filename: req.file.originalname,
-			message: 'Upload Error! message = ' + error.message
-		};
-		res.json(result);
+		next(error);
 	}
 };
+
+module.exports = { uploadFile: uploadFile };

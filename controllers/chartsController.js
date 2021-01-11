@@ -33,17 +33,11 @@ const CalcDist = (lat1, lon1, lat2, lon2) => {
 //Set Chart table
 const setChartTable = async (req, res, next) => {
 	try {
-		const allDistinct = await chartQ.getAllDistinct();
-		allDistinct.forEach(async (row) => {
-			const { longitude, latitude, site_name, site_id } = await chartQ.getAllSiteIdData(row.site_id);
-			if (
-				!await siteQ.checkDB(Object.entries(row)[0][1]) //check if in POSTGRES DB
-			) {
-				await siteQ.createSite(longitude, latitude, site_name, site_id); // add to db from mongo
-			}
-		});
+		//FROM HERE
 		let dotsDB = await dotsQ.getAllDots();
 		let site = await siteQ.getAllSites();
+		// console.log(dotsDB);
+		// console.log(site);
 		dotsDB.forEach((row) => {
 			//	Here we make iteration on rows
 			let i = [];

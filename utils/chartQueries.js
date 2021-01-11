@@ -1,21 +1,10 @@
 const db = require('./db');
-const siteDB = require('./siteQueries');
-
-//get all the diffrent sites
-const getAllDistinct = async () => {
-	try {
-		const allDistinct = await db.query('SELECT DISTINCT site_id FROM dots;');
-		return allDistinct.rows;
-	} catch (error) {
-		console.log(error.massage);
-	}
-};
 
 //Get the Data from MONGOS
 const getAllSiteIdData = async (site_id) => {
 	try {
 		const site = await db.query('SELECT * FROM fakesites WHERE site_id = $1', [ site_id ]);
-		return site;
+		return site.rows[0];
 	} catch (error) {
 		console.log(error.massage);
 	}
@@ -36,6 +25,7 @@ const setJsonToColoms = async (dotsDB) => {
 const deleteAllChart = async () => {
 	try {
 		await db.query('DELETE FROM charts');
+		console.log('All charts was Deleted');
 	} catch (error) {
 		console.log(error);
 	}
@@ -112,7 +102,6 @@ const getRsrpInDist = async (site_id, dist) => {
 };
 
 module.exports = {
-	getAllDistinct: getAllDistinct,
 	getAllSiteIdData: getAllSiteIdData,
 	setJsonToColoms: setJsonToColoms,
 	deleteAllChart: deleteAllChart,

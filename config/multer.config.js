@@ -1,30 +1,21 @@
 const multer = require('multer');
 
+const csvFilter = (req, file, cb) => {
+	let err = new Error('Not CSV');
+	err.statusCode = 400;
+	const error = file.mimetype === 'text/csv' ? null : err;
+	cb(error, true);
+};
+
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		cb(null, 'controllers/xlsxfiles');
 	},
 	filename: function(req, file, cb) {
-		const parts = file.mimetype.split('/');
-		cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
+		cb(null, Date.now() + '-' + file.originalname);
 	}
 });
 
-function checkFileType(file, cb) {
-	// Allowed ext
-	const filetypes = /xlsx/;
-	// Check ext
-	const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-	// Check mime
-	const mimetype = filetypes.test(file.mimetype);
-
-	if (mimetype && extname) {
-		return cb(null, true);
-	} else {
-		cb('Error: Xlsx Only!');
-	}
-}
-
-const upload = multer({ storage: storage, checkFileType: checkFileType });
+const upload = multer({ storage: storage, fileFilter: csvFilter });
 
 module.exports = upload;
