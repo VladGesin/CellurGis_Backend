@@ -88,7 +88,7 @@ const deleteRow = async (id) => {
 const deleteAllRows = async () => {
 	try {
 		const dot = await db.query('DELETE FROM dots; ALTER SEQUENCE dot_id_seq RESTART WITH 1;');
-		console.log('All dots was Deleted');
+		// console.log('All dots was Deleted');
 		return true;
 	} catch (error) {
 		console.log(err.massage);
@@ -99,8 +99,7 @@ const deleteAllRows = async () => {
 const getAllDistinct = async () => {
 	try {
 		const allDistinct = await db.query('SELECT DISTINCT site_id FROM dots;');
-		console.log(allDistinct.rows);
-
+		// console.log(allDistinct.rows);
 		return allDistinct.rows;
 	} catch (error) {
 		console.log(error.massage);

@@ -41,6 +41,7 @@ const setChartTable = async (req, res, next) => {
 		dotsDB.forEach((row) => {
 			//	Here we make iteration on rows
 			let i = [];
+			// console.log(site);
 			site.forEach((site) => {
 				if (site.site_id === row.site_id) {
 					i.push(site.latitude);
@@ -48,7 +49,9 @@ const setChartTable = async (req, res, next) => {
 				}
 			});
 			//Calc Distances
+			// console.log(i[0], i[1]); // Here I have bug
 			let calcDist = CalcDist(i[0], i[1], row.latitude, row.longitude);
+			// console.log(calcDist);
 			row.dist = parseInt(calcDist.toFixed(0));
 		});
 		await chartQ.setJsonToColoms(dotsDB);
@@ -115,7 +118,7 @@ const getDistinctBySiteId = async (req, res, next) => {
 //Get all the diffrent KM with site_id
 const getCountRsrpGreater = async (req, res, next) => {
 	try {
-		const { site_id, dist, rsrp } = req.body;
+		const { site_id, dist, rsrp } = req.params;
 		const countPoints = await chartQ.getRsrpInDistGreater(site_id, dist, rsrp);
 		res.json(countPoints);
 	} catch (error) {

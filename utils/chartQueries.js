@@ -25,7 +25,7 @@ const setJsonToColoms = async (dotsDB) => {
 const deleteAllChart = async () => {
 	try {
 		await db.query('DELETE FROM charts');
-		console.log('All charts was Deleted');
+		// console.log('All charts was Deleted');
 	} catch (error) {
 		console.log(error);
 	}

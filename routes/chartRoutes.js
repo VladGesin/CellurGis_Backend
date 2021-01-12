@@ -8,6 +8,6 @@ router.get('/getmin', chartController.minChart);
 router.get('/getavg', chartController.avgChart);
 router.get('/getmax', chartController.maxChart);
 router.get('/sitedist/:site_id', chartController.getDistinctBySiteId);
-router.get('/countrsrpgreater', chartController.getCountRsrpGreater);
+router.get('/countrsrpgreater/:site_id/:rsrp/:dist', chartController.getCountRsrpGreater);
 router.get('/countrsrp/:site_id/:dist', chartController.getCountRsrp);
 module.exports = router;
