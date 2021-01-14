@@ -74,7 +74,7 @@ const deleteCharts = async (req, res, next) => {
 //GET AVG rsrp by site_id
 const avgChart = async (req, res, next) => {
 	try {
-		const { site_id, dist } = req.body;
+		const { site_id, dist } = req.params;
 		const avg = await chartQ.getAVG(site_id, dist);
 		res.json(avg);
 	} catch (error) {
@@ -85,7 +85,7 @@ const avgChart = async (req, res, next) => {
 //GET MIN rsrp by site_id
 const minChart = async (req, res, next) => {
 	try {
-		const { site_id, dist } = req.body;
+		const { site_id, dist } = req.params;
 		const min = await chartQ.getMIN(site_id, dist);
 		res.json(min);
 	} catch (error) {
@@ -96,7 +96,7 @@ const minChart = async (req, res, next) => {
 //GET MAX rsrp by site_id
 const maxChart = async (req, res, next) => {
 	try {
-		const { site_id, dist } = req.body;
+		const { site_id, dist } = req.params;
 		const max = await chartQ.getMAX(site_id, dist);
 		res.json(max);
 	} catch (error) {

@@ -34,7 +34,10 @@ const deleteAllChart = async () => {
 //Get AVG from charts with site_id
 const getAVG = async (site_id, dist) => {
 	try {
-		const avg = await db.query('select AVG(rsrp) from charts where site_id = $1 AND dist = $2', [ site_id, dist ]);
+		const avg = await db.query('select ROUND(AVG(rsrp)::numeric,2)from charts where site_id = $1 AND dist = $2', [
+			site_id,
+			dist
+		]);
 		return avg.rows;
 	} catch (error) {
 		console.log(error);
