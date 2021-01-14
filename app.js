@@ -7,6 +7,7 @@ const xlsxRoutes = require('./routes/xlsxRoutes');
 const path = require('path');
 const sitesRoutes = require('./routes/siteRoutes');
 const charts = require('./routes/chartRoutes');
+
 //Load env vars
 dotenv.config({ path: './config/config.env' });
 const app = express();

@@ -9,7 +9,7 @@ const csvFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
-		cb(null, 'controllers/xlsxfiles');
+		cb(null, 'xlsxfiles');
 	},
 	filename: function(req, file, cb) {
 		cb(null, Date.now() + '-' + file.originalname);
