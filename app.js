@@ -7,6 +7,7 @@ const xlsxRoutes = require('./routes/xlsxRoutes');
 const path = require('path');
 const sitesRoutes = require('./routes/siteRoutes');
 const charts = require('./routes/chartRoutes');
+const users = require('./routes/usersRoutes');
 
 //Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -21,6 +22,7 @@ app.use(dotRoutes);
 app.use(xlsxRoutes);
 app.use(sitesRoutes);
 app.use(charts);
+app.use(users);
 
 app.get('/', (req, res) => {
 	res.status(200).send('hello word');
