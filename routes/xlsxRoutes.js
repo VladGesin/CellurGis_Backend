@@ -9,11 +9,11 @@ const chartControllr = require('../controllers/chartsController');
 
 // router.post('/api/file/uploadxlsx', upload.single('file'), excelWorker.uploadFile);
 router.post(
-	'/api/file/uploadcsv',
-	upload.single('file'),
-	csvWork.uploadFile,
-	siteMide.UpdateDataBaseFromMongoos,
-	chartControllr.setChartTable
+  '/api/file/uploadcsv',
+  upload.single('file'),
+  csvWork.uploadFile,
+  siteMide.UpdateDataBaseFromMongoos,
+  chartControllr.setChartTable
 );
 
 module.exports = router;

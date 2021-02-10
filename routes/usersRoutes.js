@@ -2,16 +2,29 @@ const express = require('express');
 const router = express.Router();
 const authMidd = require('../middleware/jwAuthMiddle');
 const userController = require('../controllers/usersController');
+const validInfo = require('../middleware/validation');
+const authorization = require('../middleware/authorization');
+const verifyController = require('../controllers/veryfyController');
 
-router.post('/register', authMidd.findUser, authMidd.encryptPass, userController.createUser);
-router.post('/login', authMidd.checkUser, authMidd.checkPass, userController.loginToken);
+//Register New User
+router.post(
+  '/register',
+  validInfo,
+  authMidd.findUser,
+  authMidd.encryptPass,
+  userController.createUser
+);
 
-/*Login
+//Login User
+router.post(
+  '/login',
+  validInfo,
+  authMidd.checkUser,
+  authMidd.checkPass,
+  userController.loginToken
+);
 
-1. distructed body
-2. check if excited
-3.check pass correct
-4. return the token
-*/
+//Verify Token as you login in
+router.get('/is-verify', authorization, verifyController.isVerify);
 
 module.exports = router;
