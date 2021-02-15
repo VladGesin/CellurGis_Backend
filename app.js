@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const pool = require('./utils/db');
 const cors = require('cors');
 const dotRoutes = require('./routes/dotsRoutes');
-const xlsxRoutes = require('./routes/xlsxRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 const path = require('path');
 const sitesRoutes = require('./routes/siteRoutes');
 const charts = require('./routes/chartRoutes');
@@ -19,7 +19,7 @@ app.use(express.json());
 
 //ROUTES
 app.use(dotRoutes);
-app.use(xlsxRoutes);
+app.use(projectRoutes);
 app.use(sitesRoutes);
 app.use(charts);
 app.use(users);

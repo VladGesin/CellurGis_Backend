@@ -39,13 +39,15 @@ const checkDB = async (site_id) => {
 
 const createSite = async (longitude, latitude, site_name, site_id) => {
   try {
+    console.log(longitude, latitude, site_name, site_id);
     const site = await db.query(
       'INSERT INTO sites(longitude, latitude, site_name, site_id ) VALUES($1, $2, $3 ,$4)',
       [longitude, latitude, site_name, site_id]
     );
+    console.log('site:', site);
     return true;
   } catch (err) {
-    console.error(err.massage);
+    console.log(err.massage);
   }
 };
 
