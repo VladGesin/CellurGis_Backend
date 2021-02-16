@@ -123,7 +123,7 @@ const getProjectIdMax = async () => {
   }
 };
 
-//Set ProjectID Max
+//Set ProjectID
 const setProjectId = async (project_id) => {
   try {
     await db.query(
@@ -136,6 +136,18 @@ const setProjectId = async (project_id) => {
   }
 };
 
+//Set ProjectID
+const setFileName = async (filename, project_id) => {
+  try {
+    await db.query(
+      'UPDATE dots SET file_name =$1 WHERE (file_name is NULL AND project_id =$2) ',
+      [filename, project_id]
+    );
+    return true;
+  } catch (error) {
+    console.log(err.massage);
+  }
+};
 //Update dot by id row
 
 const updateDot = async (id, longitude, latitude, rsrp, site_id) => {
@@ -172,6 +184,19 @@ const deleteAllRows = async () => {
   }
 };
 
+//Delete all rows where project_id
+
+const deleteAllProjectData = async (project_id) => {
+  try {
+    const dot = await db.query('DELETE FROM dots where project_id=$1', [
+      project_id,
+    ]);
+    return true;
+  } catch (error) {
+    console.log(err.massage);
+  }
+};
+
 //get all the diffrent sites
 const getAllDistinct = async () => {
   try {
@@ -200,4 +225,6 @@ module.exports = {
   setProjectId: setProjectId,
   updateRefDistCollum,
   updateRefDistCollum,
+  deleteAllProjectData: deleteAllProjectData,
+  setFileName: setFileName,
 };

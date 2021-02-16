@@ -5,6 +5,10 @@ const newProjectGetFreeIndex = async () => {
     const index = await db.query(
       'SELECT MIN (projectindex) from free_project_index'
     );
+    if (index.rows[0].min)
+      await db.query('DELETE FROM free_project_index WHERE projectindex = $1', [
+        index.rows[0].min,
+      ]);
     return index.rows[0].min;
   } catch (error) {
     console.log(error);
@@ -16,7 +20,7 @@ const saveProjectId = async (id) => {
     await db.query('INSERT INTO free_project_index(projectindex)VALUES($1)', [
       id,
     ]);
-    return index.rows[0].min;
+    return;
   } catch (error) {
     console.log(error);
   }
@@ -61,10 +65,21 @@ const getProjectsByUserId = async (user_id) => {
   }
 };
 
+const deleteProject = async (project_id) => {
+  try {
+    await db.query('DELETE FROM project_list where project_id =$1', [
+      project_id,
+    ]);
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   newProjectGetFreeIndex: newProjectGetFreeIndex,
   saveProjectId: saveProjectId,
   newProjectInsertToProjectTable: newProjectInsertToProjectTable,
   getProjectIdMax: getProjectIdMax,
   getProjectsByUserId: getProjectsByUserId,
+  deleteProject: deleteProject,
 };

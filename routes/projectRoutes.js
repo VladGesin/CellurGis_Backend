@@ -11,17 +11,17 @@ const projectController = require('../controllers/projectController');
 
 // router.post('/api/file/uploadxlsx', upload.single('file'), excelWorker.uploadFile);
 router.post(
-  '/csv/newproject',
+  '/apiv1/csv/newproject',
   upload.single('file'),
   csvWork.uploadFile,
+  fileDelete.deleteFile,
   dotMide.updateGeom,
   siteMiddle.UpdateDataBaseFromMongoos,
-  projectMiddle.createProjectIndex,
   dotMide.setProjectId,
   dotMide.updateDistFromSites,
   dotMide.updateDistFromRef,
-  fileDelete.deleteFile,
-  chartControllr.setChartTable
+  dotMide.updateCsvFileName,
+  projectController.fileUpload
 );
 
 router.post(
@@ -33,6 +33,13 @@ router.post(
 router.get(
   '/apiv1/getuserprojects/:user_id',
   projectController.getUserProjects
+);
+
+router.delete(
+  '/apiv1/deleteproject',
+  projectMiddle.saveDeletedIndex,
+  dotMide.deleteProjectData,
+  projectController.deleteProject
 );
 
 module.exports = router;

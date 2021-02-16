@@ -12,10 +12,10 @@ const createProjectIndex = async (req, res, next) => {
   }
 };
 
-const saveIndex = async (req, res, next) => {
+const saveDeletedIndex = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    project.saveProjectId(id);
+    const { project_id } = req.body;
+    await projectQ.saveProjectId(project_id);
     next();
   } catch (error) {
     console.log(error);
@@ -24,5 +24,5 @@ const saveIndex = async (req, res, next) => {
 
 module.exports = {
   createProjectIndex: createProjectIndex,
-  saveIndex: saveIndex,
+  saveDeletedIndex: saveDeletedIndex,
 };

@@ -24,7 +24,26 @@ const getUserProjects = async (req, res) => {
   }
 };
 
+const deleteProject = async (req, res) => {
+  try {
+    const { project_id } = req.body;
+    await projectQ.deleteProject(project_id);
+    res.json('Project Deleted');
+  } catch (error) {
+    throw error;
+  }
+};
+
+const fileUpload = async (req, res) => {
+  try {
+    res.json('file Uploaded');
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   addNewProjectToProjectTable: addNewProjectToProjectTable,
   getUserProjects: getUserProjects,
+  deleteProject: deleteProject,
+  fileUpload: fileUpload,
 };
