@@ -65,6 +65,18 @@ const getProjectsByUserId = async (user_id) => {
   }
 };
 
+const getProjectsFileNames = async (project_id) => {
+  try {
+    const projectList = await db.query(
+      'select DISTINCT file_name FROM dots WHERE project_id = $1',
+      [project_id]
+    );
+    return projectList.rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteProject = async (project_id) => {
   try {
     await db.query('DELETE FROM project_list where project_id =$1', [
@@ -82,4 +94,5 @@ module.exports = {
   getProjectIdMax: getProjectIdMax,
   getProjectsByUserId: getProjectsByUserId,
   deleteProject: deleteProject,
+  getProjectsFileNames: getProjectsFileNames,
 };

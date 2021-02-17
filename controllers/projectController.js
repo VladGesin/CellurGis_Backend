@@ -14,6 +14,16 @@ const addNewProjectToProjectTable = async (req, res) => {
   }
 };
 
+const getFileNmaes = async (req, res) => {
+  try {
+    const { project_id } = req.params;
+    const fileNames = await projectQ.getProjectsFileNames(project_id);
+    res.json(fileNames);
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getUserProjects = async (req, res) => {
   try {
     const { user_id } = req.params;
@@ -46,4 +56,5 @@ module.exports = {
   getUserProjects: getUserProjects,
   deleteProject: deleteProject,
   fileUpload: fileUpload,
+  getFileNmaes: getFileNmaes,
 };

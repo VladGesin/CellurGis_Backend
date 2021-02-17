@@ -8,6 +8,7 @@ const path = require('path');
 const sitesRoutes = require('./routes/siteRoutes');
 const charts = require('./routes/chartRoutes');
 const users = require('./routes/usersRoutes');
+const tabelRoutes = require('./routes/tableRoutes');
 
 //Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -23,7 +24,7 @@ app.use(projectRoutes);
 app.use(sitesRoutes);
 app.use(charts);
 app.use(users);
-
+app.use(tabelRoutes);
 app.get('/', (req, res) => {
   res.status(200).send('hello word');
 });

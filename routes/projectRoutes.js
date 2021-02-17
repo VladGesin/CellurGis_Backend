@@ -35,6 +35,10 @@ router.get(
   projectController.getUserProjects
 );
 
+router.get(
+  '/apiv1/projectfilenames/:project_id',
+  projectController.getFileNmaes
+);
 router.delete(
   '/apiv1/deleteproject',
   projectMiddle.saveDeletedIndex,
