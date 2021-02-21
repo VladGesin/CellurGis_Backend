@@ -25,48 +25,12 @@ const setJsonToColoms = async (dotsDB) => {
   }
 };
 
-//Delete all charts data
-const deleteAllChart = async () => {
-  try {
-    await db.query('DELETE FROM charts');
-    // console.log('All charts was Deleted');
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 //Get AVG from charts with site_id
-const getAVG = async (site_id, dist) => {
-  try {
-    const avg = await db.query(
-      'select ROUND(AVG(rsrp)::numeric,2)from charts where site_id = $1 AND dist = $2',
-      [site_id, dist]
-    );
-    return avg.rows;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//Get MIN from charts with site_id
-const getMIN = async (site_id, dist) => {
-  try {
-    const min = await db.query(
-      'select MIN(rsrp) from charts where site_id = ($1) AND dist = ($2)',
-      [site_id, dist]
-    );
-    return min.rows;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//Get MAX from charts with site_id
-const getMAX = async (site_id, dist) => {
+const getAVG = async (site_id, dist, project_id, filename, table) => {
   try {
     const max = await db.query(
-      'select MAX(rsrp) from charts where site_id = $1 AND dist = $2',
-      [site_id, dist]
+      `select AVG(rsrp) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
+      [site_id, dist, project_id, filename]
     );
     return max.rows;
   } catch (error) {
@@ -74,12 +38,38 @@ const getMAX = async (site_id, dist) => {
   }
 };
 
+//Get MIN from charts with site_id
+const getMIN = async (site_id, dist, project_id, filename, table) => {
+  try {
+    const max = await db.query(
+      `select MIN(rsrp) FROM dots where site_id=$1 and ${table} = $2 and project_id = $3 and file_name ilike $4`,
+      [site_id, dist, project_id, filename]
+    );
+    return max.rows;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Get MAX from charts with site_id
+const getMAX = async (site_id, dist, project_id, filename, table) => {
+  try {
+    const max = await db.query(
+      `select MAX(rsrp) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
+      [site_id, dist, project_id, filename]
+    );
+    return max.rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
 //Get all the diffrent KM with site_id order by dist from min
-const getAllDistinctDist = async (site_id) => {
+const getAllDistinctDist = async (site_id, project_id, filename, table) => {
   try {
     const allDistinctDist = await db.query(
-      'SELECT DISTINCT dist FROM charts where site_id=$1 order by dist',
-      [site_id]
+      `SELECT DISTINCT (${table}) FROM dots where site_id=$1 and project_id = $2 and file_name ilike $3 order by ${table}`,
+      [site_id, project_id, filename]
     );
     return allDistinctDist.rows;
   } catch (error) {
@@ -88,11 +78,18 @@ const getAllDistinctDist = async (site_id) => {
 };
 
 //Count rsrp points stronger then (rsrp) with site id and distance
-const getRsrpInDistGreater = async (site_id, dist, rsrp) => {
+const getRsrpInDistGreater = async (
+  site_id,
+  dist,
+  rsrp,
+  project_id,
+  filename,
+  table
+) => {
   try {
     const countRSRP = await db.query(
-      'SELECT count(*) FROM charts WHERE site_id = $1 AND rsrp > $2 AND dist = $3',
-      [site_id, rsrp, dist]
+      `SELECT count(rsrp) FROM dots WHERE site_id = $1 AND rsrp > $2 AND ${table} = $3 and project_id = $4 and file_name ilike $5`,
+      [site_id, rsrp, dist, project_id, filename]
     );
     return countRSRP.rows;
   } catch (error) {
@@ -101,11 +98,11 @@ const getRsrpInDistGreater = async (site_id, dist, rsrp) => {
 };
 
 //Count rsrp points stronger then (rsrp) with site id and distance
-const getRsrpInDist = async (site_id, dist) => {
+const getRsrpInDist = async (site_id, dist, project_id, filename, table) => {
   try {
     const countRSRP = await db.query(
-      'SELECT count(*) FROM charts WHERE site_id = $1 AND dist = $2',
-      [site_id, dist]
+      `SELECT count(*) FROM dots WHERE site_id = $1 AND ${table} = $2 and project_id = $3 and file_name ilike $4`,
+      [site_id, dist, project_id, filename]
     );
     return countRSRP.rows;
   } catch (error) {
@@ -114,13 +111,12 @@ const getRsrpInDist = async (site_id, dist) => {
 };
 
 module.exports = {
-  getAllSiteIdData: getAllSiteIdData,
-  setJsonToColoms: setJsonToColoms,
-  deleteAllChart: deleteAllChart,
-  getAVG: getAVG,
-  getMIN: getMIN,
-  getMAX: getMAX,
-  getAllDistinctDist: getAllDistinctDist,
-  getRsrpInDistGreater: getRsrpInDistGreater,
-  getRsrpInDist: getRsrpInDist,
+  getAllSiteIdData,
+  setJsonToColoms,
+  getAVG,
+  getMIN,
+  getMAX,
+  getAllDistinctDist,
+  getRsrpInDistGreater,
+  getRsrpInDist,
 };

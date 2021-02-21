@@ -1,6 +1,6 @@
 const db = require('./db');
 
-//Get All Dots
+//Get All Dots Need Fix
 const getAllDots = async () => {
   try {
     const dots = await db.query('SELECT * FROM dots');
@@ -209,22 +209,20 @@ const getAllDistinct = async () => {
 };
 
 module.exports = {
-  getAllDots: getAllDots,
-  getDot: getDot,
-  createDot: createDot,
-  updateDot: updateDot,
-  deleteRow: deleteRow,
-  deleteAllRows: deleteAllRows,
-  createDotFromXlsx: createDotFromXlsx,
-  createDotFromCsv: createDotFromCsv,
-  getAllDistinct: getAllDistinct,
-  updateGeomCollum: updateGeomCollum,
-  updateSiteDistCollum: updateSiteDistCollum,
+  getAllDots,
+  getDot,
+  createDot,
+  updateDot,
+  deleteRow,
+  deleteAllRows,
+  createDotFromXlsx,
+  createDotFromCsv,
+  getAllDistinct,
+  updateGeomCollum,
+  updateSiteDistCollum,
   getProjectIdMax,
-  getProjectIdMax,
-  setProjectId: setProjectId,
+  setProjectId,
   updateRefDistCollum,
-  updateRefDistCollum,
-  deleteAllProjectData: deleteAllProjectData,
-  setFileName: setFileName,
+  deleteAllProjectData,
+  setFileName,
 };
