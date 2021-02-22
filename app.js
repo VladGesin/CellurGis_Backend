@@ -3,10 +3,13 @@ const dotenv = require('dotenv');
 const pool = require('./utils/db');
 const cors = require('cors');
 const dotRoutes = require('./routes/dotsRoutes');
-const xlsxRoutes = require('./routes/xlsxRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 const path = require('path');
 const sitesRoutes = require('./routes/siteRoutes');
 const charts = require('./routes/chartRoutes');
+const users = require('./routes/usersRoutes');
+const tabelRoutes = require('./routes/tableRoutes');
+
 //Load env vars
 dotenv.config({ path: './config/config.env' });
 const app = express();
@@ -17,12 +20,20 @@ app.use(express.json());
 
 //ROUTES
 app.use(dotRoutes);
-app.use(xlsxRoutes);
+app.use(projectRoutes);
 app.use(sitesRoutes);
 app.use(charts);
-
+app.use(users);
+app.use(tabelRoutes);
 app.get('/', (req, res) => {
-	res.status(200).send('hello word');
+  res.status(200).send('hello word');
+});
+
+app.use((error, req, res, next) => {
+  const status = error.statusCode || 500;
+  const message = error.message;
+
+  res.status(status).json({ message: message });
 });
 
 const PORT = process.env.PORT;

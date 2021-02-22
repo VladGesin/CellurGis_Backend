@@ -66,11 +66,22 @@ const deleteAllRows = async (req, res, next) => {
 	}
 };
 
+//get all the diffrent sites
+const getAllDistinct = async (req, res, next) => {
+	try {
+		const allDistinct = await dotQ.getAllDistinct();
+		res.json(allDistinct);
+	} catch (error) {
+		console.log(error.massage);
+	}
+};
+
 module.exports = {
 	getAllDots: getAllDots,
 	getDotsBySiteName: getDotsBySiteName,
 	createDot: createDot,
 	updateDot: updateDot,
 	deleteDot: deleteDot,
-	deleteAllRows: deleteAllRows
+	deleteAllRows: deleteAllRows,
+	getAllDistinct: getAllDistinct
 };

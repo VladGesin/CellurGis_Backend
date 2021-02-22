@@ -11,7 +11,7 @@ router.post('/dot', dotController.createDot);
 //Update dot by id row
 router.put('/dot/:id', dotController.updateDot);
 //Delete Row
-router.delete('/dot/:id', dotController.deleteDot);
+// router.delete('/dot/:id', dotController.deleteDot);
 //Delete all rows
 router.delete('/dots', dotController.deleteAllRows);
 
