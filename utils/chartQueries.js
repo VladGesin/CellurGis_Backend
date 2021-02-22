@@ -12,19 +12,6 @@ const getAllSiteIdData = async (site_id) => {
   }
 };
 
-//Insert JSON to Table
-const setJsonToColoms = async (dotsDB) => {
-  try {
-    await db.query(
-      `INSERT INTO charts SELECT * FROM jsonb_populate_recordset(NULL::charts,'${JSON.stringify(
-        dotsDB
-      )}')`
-    );
-  } catch (error) {
-    console.log(error.massage);
-  }
-};
-
 //Get AVG from charts with site_id
 const getAVG = async (site_id, dist, project_id, filename, table) => {
   try {
@@ -112,7 +99,6 @@ const getRsrpInDist = async (site_id, dist, project_id, filename, table) => {
 
 module.exports = {
   getAllSiteIdData,
-  setJsonToColoms,
   getAVG,
   getMIN,
   getMAX,

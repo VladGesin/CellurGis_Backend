@@ -1,6 +1,4 @@
 const chartQ = require('../utils/chartQueries');
-const siteQ = require('../utils/siteQueries');
-const dotsQ = require('../utils/dotQueries');
 
 //Set Collum name
 
