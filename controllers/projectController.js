@@ -8,7 +8,7 @@ const addNewProjectToProjectTable = async (req, res) => {
       req.project_index,
       project_name
     );
-    res.json(newProject);
+    res.status(200).json(newProject);
   } catch (error) {
     throw error;
   }
@@ -18,7 +18,7 @@ const getFileNmaes = async (req, res) => {
   try {
     const { project_id } = req.params;
     const fileNames = await projectQ.getProjectsFileNames(project_id);
-    res.json(fileNames);
+    res.status(200).json(fileNames);
   } catch (error) {
     throw error;
   }
@@ -28,7 +28,7 @@ const getUserProjects = async (req, res) => {
   try {
     const { user_id } = req.params;
     const userProjects = await projectQ.getProjectsByUserId(user_id);
-    res.json(userProjects);
+    res.status(200).json(userProjects);
   } catch (err) {
     throw err;
   }
@@ -38,7 +38,7 @@ const deleteProject = async (req, res) => {
   try {
     const { project_id } = req.body;
     await projectQ.deleteProject(project_id);
-    res.json('Project Deleted');
+    res.status(200).json('Project Deleted');
   } catch (error) {
     throw error;
   }
@@ -46,7 +46,7 @@ const deleteProject = async (req, res) => {
 
 const fileUpload = async (req, res) => {
   try {
-    res.json('file Uploaded');
+    res.status(200).json('file Uploaded');
   } catch (error) {
     throw error;
   }

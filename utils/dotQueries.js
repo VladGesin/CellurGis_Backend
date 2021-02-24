@@ -54,7 +54,7 @@ const createDotFromXlsx = async (longitude, latitude, rsrp, site_id) => {
 
 const createDotFromCsv = async (path) => {
   try {
-    await db.query('ALTER SEQUENCE dot_id_seq RESTART WITH 1;');
+    await db.query('ALTER SEQUENCE dot_id_seq RESTART WITH 1');
     await db.query(
       `COPY dots(latitude, longitude, rsrp, site_id ) FROM '${path}' DELIMITER ',' CSV HEADER `
     );

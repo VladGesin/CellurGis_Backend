@@ -15,11 +15,11 @@ const getAllSiteIdData = async (site_id) => {
 //Get AVG from charts with site_id
 const getAVG = async (site_id, dist, project_id, filename, table) => {
   try {
-    const max = await db.query(
-      `select AVG(rsrp) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
+    const avg = await db.query(
+      `select ROUND(AVG(rsrp)::numeric,2) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
       [site_id, dist, project_id, filename]
     );
-    return max.rows;
+    return avg.rows;
   } catch (error) {
     console.log(error);
   }
@@ -28,11 +28,11 @@ const getAVG = async (site_id, dist, project_id, filename, table) => {
 //Get MIN from charts with site_id
 const getMIN = async (site_id, dist, project_id, filename, table) => {
   try {
-    const max = await db.query(
-      `select MIN(rsrp) FROM dots where site_id=$1 and ${table} = $2 and project_id = $3 and file_name ilike $4`,
+    const min = await db.query(
+      `select ROUND(MIN(rsrp)::numeric,2) FROM dots where site_id=$1 and ${table} = $2 and project_id = $3 and file_name ilike $4`,
       [site_id, dist, project_id, filename]
     );
-    return max.rows;
+    return min.rows;
   } catch (error) {
     console.log(error);
   }
@@ -42,7 +42,7 @@ const getMIN = async (site_id, dist, project_id, filename, table) => {
 const getMAX = async (site_id, dist, project_id, filename, table) => {
   try {
     const max = await db.query(
-      `select MAX(rsrp) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
+      `select ROUND(MAX(rsrp)::numeric,2)FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
       [site_id, dist, project_id, filename]
     );
     return max.rows;
