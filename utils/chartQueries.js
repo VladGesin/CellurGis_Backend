@@ -1,22 +1,10 @@
 const db = require('./db');
 
-//Get the Data from MONGOS
-const getAllSiteIdData = async (site_id) => {
-  try {
-    const site = await db.query('SELECT * FROM fakesites WHERE site_id = $1', [
-      site_id,
-    ]);
-    return site.rows[0];
-  } catch (error) {
-    console.log(error.massage);
-  }
-};
-
 //Get AVG from charts with site_id
 const getAVG = async (site_id, dist, project_id, filename, table) => {
   try {
     const avg = await db.query(
-      `select ROUND(AVG(rsrp)::numeric,2) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
+      `select ROUND(AVG(rsrp)::numeric,2) FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and lower(file_name) like lower($4)`,
       [site_id, dist, project_id, filename]
     );
     return avg.rows;
@@ -29,7 +17,7 @@ const getAVG = async (site_id, dist, project_id, filename, table) => {
 const getMIN = async (site_id, dist, project_id, filename, table) => {
   try {
     const min = await db.query(
-      `select ROUND(MIN(rsrp)::numeric,2) FROM dots where site_id=$1 and ${table} = $2 and project_id = $3 and file_name ilike $4`,
+      `select ROUND(MIN(rsrp)::numeric,2) FROM dots where site_id=$1 and ${table} = $2 and project_id = $3 and lower(file_name) like lower($4)`,
       [site_id, dist, project_id, filename]
     );
     return min.rows;
@@ -42,7 +30,7 @@ const getMIN = async (site_id, dist, project_id, filename, table) => {
 const getMAX = async (site_id, dist, project_id, filename, table) => {
   try {
     const max = await db.query(
-      `select ROUND(MAX(rsrp)::numeric,2)FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and file_name ilike $4`,
+      `select ROUND(MAX(rsrp)::numeric,2)FROM dots where site_id=$1 and ${table}=$2 and project_id = $3 and lower(file_name) like lower($4)`,
       [site_id, dist, project_id, filename]
     );
     return max.rows;
@@ -55,7 +43,7 @@ const getMAX = async (site_id, dist, project_id, filename, table) => {
 const getAllDistinctDist = async (site_id, project_id, filename, table) => {
   try {
     const allDistinctDist = await db.query(
-      `SELECT DISTINCT (${table}) FROM dots where site_id=$1 and project_id = $2 and file_name ilike $3 order by ${table}`,
+      `SELECT DISTINCT (${table}) FROM dots where site_id=$1 and project_id = $2 and lower(file_name) like lower($3) order by ${table}`,
       [site_id, project_id, filename]
     );
     return allDistinctDist.rows;
@@ -75,7 +63,7 @@ const getRsrpInDistGreater = async (
 ) => {
   try {
     const countRSRP = await db.query(
-      `SELECT count(rsrp) FROM dots WHERE site_id = $1 AND rsrp > $2 AND ${table} = $3 and project_id = $4 and file_name ilike $5`,
+      `SELECT count(rsrp) FROM dots WHERE site_id = $1 AND rsrp > $2 AND ${table} = $3 and project_id = $4 and lower(file_name) like lower($5)`,
       [site_id, rsrp, dist, project_id, filename]
     );
     return countRSRP.rows;
@@ -88,7 +76,7 @@ const getRsrpInDistGreater = async (
 const getRsrpInDist = async (site_id, dist, project_id, filename, table) => {
   try {
     const countRSRP = await db.query(
-      `SELECT count(*) FROM dots WHERE site_id = $1 AND ${table} = $2 and project_id = $3 and file_name ilike $4`,
+      `SELECT count(*) FROM dots WHERE site_id = $1 AND ${table} = $2 AND project_id = $3 AND lower(file_name) like lower($4)`,
       [site_id, dist, project_id, filename]
     );
     return countRSRP.rows;
@@ -98,7 +86,6 @@ const getRsrpInDist = async (site_id, dist, project_id, filename, table) => {
 };
 
 module.exports = {
-  getAllSiteIdData,
   getAVG,
   getMIN,
   getMAX,

@@ -38,22 +38,6 @@ const createSite = async (req, res, next) => {
   }
 };
 
-//Create Fake DB Sites
-const createFakeSite = async (req, res, next) => {
-  try {
-    const { longitude, latitude, site_name, site_id } = req.body;
-    const createSite = await siteQuery.createFakeSite(
-      longitude,
-      latitude,
-      site_name,
-      site_id
-    );
-    res.json(createSite);
-  } catch (error) {
-    next(error);
-  }
-};
-
 //Update site by site id
 const updateSite = async (req, res, next) => {
   try {
@@ -87,23 +71,21 @@ const deleteAllSites = async (req, res, next) => {
   }
 };
 
-//Check site excited
-const checkDB = async (req, res, next) => {
+//Database created
+const databaseCreated = async (req, res, next) => {
   try {
-    let check = await siteQuery.checkDB();
-    res.json(check);
+    res.json('Database created');
   } catch (error) {
     next(error);
   }
 };
 
 module.exports = {
-  getAllSites: getAllSites,
-  getSiteBySiteId: getSiteBySiteId,
-  createSite: createSite,
-  updateSite: updateSite,
-  deleteSite: deleteSite,
-  deleteAllSites: deleteAllSites,
-  createFakeSite: createFakeSite,
-  checkDB: checkDB,
+  getAllSites,
+  getSiteBySiteId,
+  createSite,
+  updateSite,
+  deleteSite,
+  deleteAllSites,
+  databaseCreated,
 };

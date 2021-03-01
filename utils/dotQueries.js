@@ -1,6 +1,6 @@
 const db = require('./db');
 
-//Get All Dots Need Fix
+//Get All Dots
 const getAllDots = async () => {
   try {
     const dots = await db.query('SELECT * FROM dots');
@@ -56,7 +56,7 @@ const createDotFromCsv = async (path) => {
   try {
     await db.query('ALTER SEQUENCE dot_id_seq RESTART WITH 1');
     await db.query(
-      `COPY dots(latitude, longitude, rsrp, site_id ) FROM '${path}' DELIMITER ',' CSV HEADER `
+      `COPY dots(site_id, rsrp, longitude , latitude ) FROM '${path}' DELIMITER ',' CSV HEADER `
     );
   } catch (err) {
     throw error;
@@ -65,12 +65,13 @@ const createDotFromCsv = async (path) => {
 
 //Update Geom collum
 
-const updateGeomCollum = async () => {
+const updateGeomCollum = async (filename, project_id) => {
   try {
     await db.query(
       `UPDATE dots 
       SET geom = ST_GeomFromText('POINT(' || longitude || ' ' || latitude || ')',4326) 
-      WHERE geom is NULL`
+      WHERE geom is NULL AND file_name=$1 AND project_id=$2`,
+      [filename, project_id]
     );
   } catch (err) {
     throw error;
@@ -79,7 +80,7 @@ const updateGeomCollum = async () => {
 
 //Update dist_from_site collum
 
-const updateSiteDistCollum = async (project_id) => {
+const updateSiteDistCollum = async (filename, project_id) => {
   try {
     await db.query(
       `UPDATE dots d
@@ -87,8 +88,9 @@ const updateSiteDistCollum = async (project_id) => {
       FROM sites s
       WHERE d.site_id = s.site_id
       AND d.dist_from_site is NULL
-      AND project_id = $1`,
-      [project_id]
+      AND project_id = $1
+      AND file_name = $2`,
+      [project_id, filename]
     );
   } catch (err) {
     throw error;
@@ -97,7 +99,7 @@ const updateSiteDistCollum = async (project_id) => {
 
 //Update dist_from_ref_layer collum
 
-const updateRefDistCollum = async (project_id) => {
+const updateRefDistCollum = async (filename, project_id) => {
   try {
     await db.query(
       `UPDATE dots d SET dist_from_ref = 
@@ -105,8 +107,8 @@ const updateRefDistCollum = async (project_id) => {
          FROM green_line r
          WHERE r.id = 1
         )
-         WHERE d.dist_from_ref is NULL AND project_id = $1`,
-      [project_id]
+         WHERE d.dist_from_ref is NULL AND project_id = $1 AND file_name = $2`,
+      [project_id, filename]
     );
   } catch (err) {
     throw error;
@@ -136,7 +138,7 @@ const setProjectId = async (project_id) => {
   }
 };
 
-//Set ProjectID
+//Set File Name
 const setFileName = async (filename, project_id) => {
   try {
     await db.query(
