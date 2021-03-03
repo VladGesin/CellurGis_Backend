@@ -22,19 +22,6 @@ const getSite = async (site_id) => {
   }
 };
 
-//Get excisted of Site id
-const checkDB = async (site_id) => {
-  try {
-    const site = await db.query('SELECT * FROM sites WHERE site_id = $1', [
-      site_id,
-    ]);
-    if (site.rows.length > 0) return true;
-    else return false;
-  } catch (error) {
-    console.log(err.massage);
-  }
-};
-
 //Create Site
 
 const createSite = async (longitude, latitude, site_name, site_id) => {
@@ -46,20 +33,6 @@ const createSite = async (longitude, latitude, site_name, site_id) => {
     return true;
   } catch (err) {
     console.log(err.massage);
-  }
-};
-
-//Create fake db Sites
-
-const createFakeSite = async (longitude, latitude, site_name, site_id) => {
-  try {
-    const site = await db.query(
-      'INSERT INTO fakesites(longitude, latitude, site_name, site_id ) VALUES($1, $2, $3 ,$4)',
-      [longitude, latitude, site_name, site_id]
-    );
-    return true;
-  } catch (err) {
-    console.error(err.massage);
   }
 };
 
@@ -78,7 +51,6 @@ const updateSite = async (longitude, latitude, site_name, site_id) => {
 };
 
 //Delete Row site_name
-//Change from dots to sites on table
 const deleteSite = async (site_name) => {
   try {
     await db.query('DELETE FROM sites WHERE site_name = $1', [site_name]);
@@ -98,13 +70,25 @@ const deleteAllSites = async () => {
   }
 };
 
+//Create Database from csv file
+
+const createDatabaseFromCsv = async (path) => {
+  try {
+    await db.query('DELETE FROM sites');
+    await db.query(
+      `COPY sites(site_name, site_id, latitude , longitude ) FROM '${path}' DELIMITER ',' CSV HEADER `
+    );
+  } catch (err) {
+    throw error;
+  }
+};
+
 module.exports = {
-  getAllSites: getAllSites,
-  getSite: getSite,
-  createSite: createSite,
-  updateSite: updateSite,
-  deleteSite: deleteSite,
-  deleteAllSites: deleteAllSites,
-  createFakeSite: createFakeSite,
-  checkDB: checkDB,
+  getAllSites,
+  getSite,
+  createSite,
+  updateSite,
+  deleteSite,
+  deleteAllSites,
+  createDatabaseFromCsv,
 };

@@ -17,7 +17,7 @@ const avgChart = async (req, res, next) => {
       filename,
       setCollumName(table)
     );
-    res.json(avg);
+    res.status(200).json(avg);
   } catch (error) {
     console.log(error);
   }
@@ -34,7 +34,7 @@ const minChart = async (req, res, next) => {
       filename,
       setCollumName(table)
     );
-    res.json(min);
+    res.status(200).json(min);
   } catch (error) {
     console.log(error);
   }
@@ -51,7 +51,7 @@ const maxChart = async (req, res, next) => {
       filename,
       setCollumName(table)
     );
-    res.json(max);
+    res.status(200).json(max);
   } catch (error) {
     console.log(error);
   }
@@ -67,7 +67,7 @@ const getDistinctBySiteId = async (req, res, next) => {
       filename,
       setCollumName(table)
     );
-    res.json(distinctKM);
+    res.status(200).json(distinctKM);
   } catch (error) {
     console.log(error);
   }
@@ -84,7 +84,7 @@ const getCountRsrpGreater = async (req, res, next) => {
       filename,
       setCollumName(table)
     );
-    res.json(countPoints);
+    res.status(200).json(countPoints);
   } catch (error) {
     console.log(error);
   }
@@ -101,7 +101,7 @@ const getCountRsrp = async (req, res, next) => {
       filename,
       setCollumName(table)
     );
-    res.json(countPoints);
+    res.status(200).json(countPoints);
   } catch (error) {
     console.log(error);
   }

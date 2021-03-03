@@ -2,7 +2,8 @@ const dotQ = require('../utils/dotQueries');
 
 const updateGeom = async (req, res, next) => {
   try {
-    await dotQ.updateGeomCollum();
+    const { filename, project_id } = req.body;
+    await dotQ.updateGeomCollum(filename, project_id);
     next();
   } catch (error) {
     throw error;
@@ -11,8 +12,8 @@ const updateGeom = async (req, res, next) => {
 
 const updateDistFromSites = async (req, res, next) => {
   try {
-    const { project_id } = req.body;
-    await dotQ.updateSiteDistCollum(project_id);
+    const { filename, project_id } = req.body;
+    await dotQ.updateSiteDistCollum(filename, project_id);
     next();
   } catch (error) {
     throw error;
@@ -21,8 +22,8 @@ const updateDistFromSites = async (req, res, next) => {
 
 const updateDistFromRef = async (req, res, next) => {
   try {
-    const { project_id } = req.body;
-    await dotQ.updateRefDistCollum(project_id);
+    const { filename, project_id } = req.body;
+    await dotQ.updateRefDistCollum(filename, project_id);
     next();
   } catch (error) {
     throw error;

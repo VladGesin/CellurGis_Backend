@@ -8,6 +8,11 @@ router.get(
 );
 
 router.get(
+  '/apiv2/getfilesdata/:project_id/:filename',
+  tableController.getFileData
+);
+
+router.get(
   '/apiv1/getcountpoints/:project_id/:filename',
   tableController.getFileCountPoints
 );

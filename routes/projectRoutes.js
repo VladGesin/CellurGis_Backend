@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../config/multer.config.js');
 const csvWork = require('../middleware/csvMiddleware.js');
-const siteMiddle = require('../middleware/siteMiddleware');
-const chartControllr = require('../controllers/chartsController');
 const dotMide = require('../middleware/dotMiddleware');
 const fileDelete = require('../utils/file-util');
 const projectMiddle = require('../middleware/projectMiddleware');
@@ -11,16 +9,15 @@ const projectController = require('../controllers/projectController');
 
 // router.post('/api/file/uploadxlsx', upload.single('file'), excelWorker.uploadFile);
 router.post(
-  '/apiv1/csv/newproject',
+  '/apiv1/csv/newdtfile',
   upload.single('file'),
   csvWork.uploadFile,
   fileDelete.deleteFile,
-  dotMide.updateGeom,
-  siteMiddle.UpdateDataBaseFromMongoos,
   dotMide.setProjectId,
+  dotMide.updateCsvFileName,
+  dotMide.updateGeom,
   dotMide.updateDistFromSites,
   dotMide.updateDistFromRef,
-  dotMide.updateCsvFileName,
   projectController.fileUpload
 );
 

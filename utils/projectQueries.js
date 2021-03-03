@@ -33,7 +33,7 @@ const newProjectInsertToProjectTable = async (
 ) => {
   try {
     const newProject = await db.query(
-      'INSERT INTO project_list(user_id , project_id , project_name , created_on) VALUES ($1,$2,$3,CURRENT_TIMESTAMP) RETURNING * ',
+      'INSERT INTO project_list(user_id , project_id , project_name , created_on) VALUES ($1,$2,$3,CURRENT_TIMESTAMP) RETURNING  project_id , project_name , created_on ',
       [user_id, project_id, project_name]
     );
     return newProject.rows[0];
