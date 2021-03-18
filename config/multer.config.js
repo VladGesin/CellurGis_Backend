@@ -1,7 +1,7 @@
 const multer = require('multer');
 
 const csvFilter = (req, file, cb) => {
-  let err = new Error('Not CSV');
+  const err = new Error('Not CSV');
   err.statusCode = 400;
   const error = file.mimetype === 'text/csv' ? null : err;
   cb(error, true);

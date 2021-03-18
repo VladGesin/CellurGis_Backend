@@ -6,7 +6,7 @@ const updateGeom = async (req, res, next) => {
     await dotQ.updateGeomCollum(filename, project_id);
     next();
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -16,7 +16,7 @@ const updateDistFromSites = async (req, res, next) => {
     await dotQ.updateSiteDistCollum(filename, project_id);
     next();
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -26,7 +26,7 @@ const updateDistFromRef = async (req, res, next) => {
     await dotQ.updateRefDistCollum(filename, project_id);
     next();
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -36,7 +36,7 @@ const setProjectId = async (req, res, next) => {
     await dotQ.setProjectId(project_id);
     next();
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
@@ -56,17 +56,17 @@ const updateCsvFileName = async (req, res, next) => {
     await dotQ.setFileName(filename, project_id);
     next();
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
 module.exports = {
-  updateGeom: updateGeom,
-  updateDistFromSites: updateDistFromSites,
+  updateGeom,
+  updateDistFromSites,
   setProjectId,
   setProjectId,
   updateDistFromRef,
   updateDistFromRef,
-  deleteProjectData: deleteProjectData,
-  updateCsvFileName: updateCsvFileName,
+  deleteProjectData,
+  updateCsvFileName,
 };

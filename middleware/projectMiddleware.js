@@ -22,7 +22,18 @@ const saveDeletedIndex = async (req, res, next) => {
   }
 };
 
+const insertCsv = async (req, res, next) => {
+  try {
+    const data = req.data;
+    await projectQ.insertToDotsTableNewFile(data);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  createProjectIndex: createProjectIndex,
-  saveDeletedIndex: saveDeletedIndex,
+  createProjectIndex,
+  saveDeletedIndex,
+  insertCsv,
 };
