@@ -1,4 +1,6 @@
+const { query } = require('./db');
 const db = require('./db');
+const format = require('pg-format');
 
 const newProjectGetFreeIndex = async () => {
   try {
@@ -87,6 +89,29 @@ const deleteProject = async (project_id) => {
   }
 };
 
+function Inserts(template, data) {
+  if (!(this instanceof Inserts)) {
+    return new Inserts(template, data);
+  }
+  this.rawType = true;
+  this.toPostgres = () =>
+    data.map((d) => '(' + pgp.as.format(template, d) + ')').join();
+}
+
+const insertToDotsTableNewFile = async (data) => {
+  try {
+    await db.query('ALTER SEQUENCE dot_id_seq RESTART WITH 1');
+    const bigQuery = format(
+      'INSERT INTO dots(site_id, rsrp, longitude , latitude   ,file_name ,project_id) VALUES %L',
+      data
+    );
+    await db.query(bigQuery);
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   newProjectGetFreeIndex: newProjectGetFreeIndex,
   saveProjectId: saveProjectId,
@@ -95,4 +120,5 @@ module.exports = {
   getProjectsByUserId: getProjectsByUserId,
   deleteProject: deleteProject,
   getProjectsFileNames: getProjectsFileNames,
+  insertToDotsTableNewFile,
 };

@@ -44,11 +44,11 @@ const deleteProject = async (req, res) => {
   }
 };
 
-const fileUpload = async (req, res) => {
+const fileUpload = async (req, res, next) => {
   try {
     res.status(200).json('file Uploaded');
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 module.exports = {

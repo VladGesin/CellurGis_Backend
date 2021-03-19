@@ -58,7 +58,8 @@ const createDotFromCsv = async (path) => {
     await db.query(
       `COPY dots(site_id, rsrp, longitude , latitude ) FROM '${path}' DELIMITER ',' CSV HEADER `
     );
-  } catch (err) {
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 };
@@ -67,12 +68,15 @@ const createDotFromCsv = async (path) => {
 
 const updateGeomCollum = async (filename, project_id) => {
   try {
+    console.log(filename, project_id);
     await db.query(
       `UPDATE dots 
       SET geom = ST_GeomFromText('POINT(' || longitude || ' ' || latitude || ')',4326) 
-      WHERE geom is NULL AND file_name=$1 AND project_id=$2`,
+      WHERE geom is NULL AND file_name = $1 AND project_id = $2`,
       [filename, project_id]
     );
+
+    return true;
   } catch (err) {
     throw error;
   }
