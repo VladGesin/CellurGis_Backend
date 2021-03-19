@@ -4,6 +4,7 @@ const siteController = require('../controllers/sitesController');
 const upload = require('../config/multer.config.js');
 const fileDelete = require('../utils/file-util');
 const siteMiddleware = require('../middleware/siteMiddleware');
+const csvWork = require('../middleware/csvMiddleware.js');
 
 //Get All Sites
 router.get('/sites', siteController.getAllSites);
@@ -21,8 +22,10 @@ router.delete('/sites', siteController.deleteAllSites);
 router.post(
   '/apiv2/csv/sitedatabase',
   upload.single('file'),
-  siteMiddleware.uploadFile,
-  fileDelete.deleteFile,
+  siteMiddleware.setHeader,
+  csvWork.uploadFile,
+  siteMiddleware.insertCsvToDatabase,
+  // fileDelete.deleteFile,
   siteController.databaseCreated
 );
 

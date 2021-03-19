@@ -8,14 +8,16 @@ const projectMiddle = require('../middleware/projectMiddleware');
 const projectController = require('../controllers/projectController');
 
 // router.post('/api/file/uploadxlsx', upload.single('file'), excelWorker.uploadFile);
+
 router.post(
   '/apiv1/csv/newdtfile',
   upload.single('file'),
+  projectMiddle.setHeader,
   csvWork.uploadFile,
   projectMiddle.insertCsv,
   // fileDelete.deleteFile,
-  dotMide.setProjectId,
-  dotMide.updateCsvFileName,
+  // dotMide.setProjectId,
+  // dotMide.updateCsvFileName,
   dotMide.updateGeom,
   dotMide.updateDistFromSites,
   dotMide.updateDistFromRef,

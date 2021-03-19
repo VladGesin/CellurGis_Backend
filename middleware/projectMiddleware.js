@@ -32,7 +32,17 @@ const insertCsv = async (req, res, next) => {
   }
 };
 
+const setHeader = async (req, res, next) => {
+  try {
+    req.csvHeader = ['site_id', 'rsrp', 'longitude', 'latitude'];
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
+  setHeader,
   createProjectIndex,
   saveDeletedIndex,
   insertCsv,

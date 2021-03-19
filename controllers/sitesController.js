@@ -74,7 +74,7 @@ const deleteAllSites = async (req, res, next) => {
 //Database created
 const databaseCreated = async (req, res, next) => {
   try {
-    res.json('Database created');
+    res.status(200).json('Database created');
   } catch (error) {
     next(error);
   }
