@@ -1,4 +1,5 @@
 const db = require('./db');
+const format = require('pg-format');
 
 //Get All sites
 const getAllSites = async () => {
@@ -72,14 +73,18 @@ const deleteAllSites = async () => {
 
 //Create Database from csv file
 
-const createDatabaseFromCsv = async (path) => {
+const createDatabaseFromCsv = async (data) => {
   try {
     await db.query('DELETE FROM sites');
-    await db.query(
-      `COPY sites(site_name, site_id, latitude , longitude ) FROM '${path}' DELIMITER ',' CSV HEADER `
+    const bigQuery = format(
+      'INSERT INTO sites(site_name, site_id, latitude, longitude) VALUES %L',
+      data
     );
+    await db.query(bigQuery);
+
+    return true;
   } catch (err) {
-    throw error;
+    return err;
   }
 };
 

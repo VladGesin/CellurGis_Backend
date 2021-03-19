@@ -1,20 +1,23 @@
 const siteQuery = require('../utils/siteQueries');
 const root = require('path').dirname(require.main.filename);
-const fs = require('fs');
 
-const uploadFile = async (req, res, next) => {
-  const filePath = root + '/xlsxfiles/' + req.file.filename;
+const insertCsvToDatabase = async (req, res, next) => {
   try {
-    await siteQuery.createDatabaseFromCsv(filePath);
+    const data = req.data;
+    await siteQuery.createDatabaseFromCsv(data);
     next();
   } catch (error) {
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
-    next(errHandler(`Wrong collum position , Old Database deleted`, 400));
+    next(error);
   }
 };
 
-module.exports = { uploadFile };
+const setHeader = async (req, res, next) => {
+  try {
+    req.csvHeader = ['Site_name', 'Site_id', 'Latitude', 'Longitude'];
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { insertCsvToDatabase, setHeader };

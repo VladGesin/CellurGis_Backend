@@ -1,4 +1,3 @@
-const { query } = require('./db');
 const db = require('./db');
 const format = require('pg-format');
 
@@ -88,15 +87,6 @@ const deleteProject = async (project_id) => {
     throw error;
   }
 };
-
-function Inserts(template, data) {
-  if (!(this instanceof Inserts)) {
-    return new Inserts(template, data);
-  }
-  this.rawType = true;
-  this.toPostgres = () =>
-    data.map((d) => '(' + pgp.as.format(template, d) + ')').join();
-}
 
 const insertToDotsTableNewFile = async (data) => {
   try {

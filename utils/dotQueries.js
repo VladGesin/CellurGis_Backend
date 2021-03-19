@@ -68,7 +68,6 @@ const createDotFromCsv = async (path) => {
 
 const updateGeomCollum = async (filename, project_id) => {
   try {
-    console.log(filename, project_id);
     await db.query(
       `UPDATE dots 
       SET geom = ST_GeomFromText('POINT(' || longitude || ' ' || latitude || ')',4326) 
