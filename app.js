@@ -9,6 +9,7 @@ const sitesRoutes = require('./routes/siteRoutes');
 const charts = require('./routes/chartRoutes');
 const users = require('./routes/usersRoutes');
 const tabelRoutes = require('./routes/tableRoutes');
+const mapRoutes = require('./routes/mapRoutes');
 
 //Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //ROUTES
 app.use(dotRoutes);
+app.use(mapRoutes);
 app.use(projectRoutes);
 app.use(sitesRoutes);
 app.use(charts);
