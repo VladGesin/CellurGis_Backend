@@ -27,7 +27,7 @@ const getSite = async (site_id) => {
 
 const createSite = async (longitude, latitude, site_name, site_id) => {
   try {
-    const site = await db.query(
+    await db.query(
       'INSERT INTO sites(longitude, latitude, site_name, site_id ) VALUES($1, $2, $3 ,$4)',
       [longitude, latitude, site_name, site_id]
     );
@@ -88,6 +88,17 @@ const createDatabaseFromCsv = async (data) => {
   }
 };
 
+const getSiteMapData = async () => {
+  try {
+    const siteArr =  await db.query('SELECT DISTINCT site_name , latitude , longitude  from sites');
+    return siteArr.rows;
+  } catch (err) {
+    return err;
+  }
+};
+
+
+
 module.exports = {
   getAllSites,
   getSite,
@@ -96,4 +107,5 @@ module.exports = {
   deleteSite,
   deleteAllSites,
   createDatabaseFromCsv,
+  getSiteMapData
 };

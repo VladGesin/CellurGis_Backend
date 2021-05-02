@@ -80,6 +80,16 @@ const databaseCreated = async (req, res, next) => {
   }
 };
 
+//Get Site Map Data
+const getSiteMapData = async (req, res, next) => {
+  try {
+    sitesMapPoints = await siteQuery.getSiteMapData();
+    res.status(200).json(sitesMapPoints);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllSites,
   getSiteBySiteId,
@@ -88,4 +98,5 @@ module.exports = {
   deleteSite,
   deleteAllSites,
   databaseCreated,
+  getSiteMapData
 };
