@@ -10,6 +10,8 @@ const csvWork = require('../middleware/csvMiddleware.js');
 router.get('/sites', siteController.getAllSites);
 //Get Sites of Site id
 router.get('/site/:site_id', siteController.getSiteBySiteId);
+//Get Sites markers for map
+router.get('/apiv2/sites/map',siteController.getSiteMapData);
 //Create Site
 router.post('/site', siteController.createSite);
 //Update site by site_id

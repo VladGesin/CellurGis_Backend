@@ -1,4 +1,4 @@
-const siteQuery = require('../utils/siteQueries');
+const siteQuery = require("../utils/siteQueries");
 
 //Get All sites
 const getAllSites = async (req, res, next) => {
@@ -44,7 +44,7 @@ const updateSite = async (req, res, next) => {
     const { site_id } = req.params;
     const { longitude, latitude, site_name } = req.body;
     await siteQuery.updateSite(longitude, latitude, site_name, site_id);
-    res.json('Dot have been updated');
+    res.json("Dot have been updated");
   } catch (error) {
     next(error);
   }
@@ -55,7 +55,7 @@ const deleteSite = async (req, res, next) => {
   try {
     const { site_name } = req.params;
     await siteQuery.deleteSite(site_name);
-    res.json('Row Deleted');
+    res.json("Row Deleted");
   } catch (error) {
     next(error);
   }
@@ -65,7 +65,7 @@ const deleteSite = async (req, res, next) => {
 const deleteAllSites = async (req, res, next) => {
   try {
     await siteQuery.deleteAllSites();
-    res.json('All Rows Deleted');
+    res.json("All Rows Deleted");
   } catch (error) {
     next(error);
   }
@@ -74,7 +74,17 @@ const deleteAllSites = async (req, res, next) => {
 //Database created
 const databaseCreated = async (req, res, next) => {
   try {
-    res.status(200).json('Database created');
+    res.status(200).json("Database created");
+  } catch (error) {
+    next(error);
+  }
+};
+
+//Get Site Map Data
+const getSiteMapData = async (req, res, next) => {
+  try {
+    sitesMapPoints = await siteQuery.getSiteMapData();
+    res.status(200).json(sitesMapPoints);
   } catch (error) {
     next(error);
   }
@@ -88,4 +98,5 @@ module.exports = {
   deleteSite,
   deleteAllSites,
   databaseCreated,
+  getSiteMapData,
 };
